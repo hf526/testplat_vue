@@ -1,23 +1,25 @@
 <template>
+
   <!--登陆盒子-->
   <div class="hf_login_class">
     <!--中部登陆盒子-->
     <div class="hf_login_box">
       <!--登陆头像log-->
-      <!--<div class="hf_login_icon">-->
-        <!--<img src="http://b-ssl.duitang.com/uploads/item/201803/31/20180331103526_Vxzch.jpeg">-->
-      <!--</div>-->
       <!--表单区域-->
       <div class="hf_login_form">
         <div class="hf_login_name">自动化测试平台</div>
-        <el-form class="hf_login_elform">
+        <el-form  :model="login_form"  :rules="login_formRules"  class="hf_login_elform" label-width="1px">
           <!--用户名-->
-          <el-form-item>
-            <el-input></el-input>
+          <el-form-item prop="username" label=" ">
+            <el-input v-model="login_form.username">
+              <i slot="prefix" class="iconfont icon-account"></i>
+            </el-input>
           </el-form-item>
           <!--密码-->
-          <el-form-item>
-            <el-input></el-input>
+          <el-form-item prop="password"  label=" ">
+            <el-input v-model="login_form.password" type="password">
+              <i slot="prefix" class="iconfont  icon-password"></i>
+            </el-input>
           </el-form-item>
           <!--登陆按钮-->
           <el-form-item class="hf_login_button" >
@@ -31,7 +33,29 @@
 
 <script>
 export default {
-  name: 'Login'
+  name: 'Login',
+  data () {
+    return {
+      // 登陆表单属性
+      login_form: {
+        username: 'admin',
+        password: '123456',
+        name: '123456'
+      },
+      // verifyicon: false,
+      login_formRules: {
+        name: [
+          { required: true, message: '请输入用户名', trigger: 'blur' }
+        ],
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' }
+        ]
+      }
+    }
+  }
 }
 </script>
 
@@ -53,7 +77,11 @@ export default {
   }
   /*表单区域*/
   .hf_login_form{
-    padding: 35px;
+    padding: 45px;
+    padding-bottom: 35px;
+  }
+  .el-input{
+    width: 95%;
   }
   /*.hf_login_elform{*/
     /*margin-left: 20px;*/
