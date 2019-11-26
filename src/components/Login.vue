@@ -8,7 +8,7 @@
       <!--表单区域-->
       <div class="hf_login_form">
         <div class="hf_login_name">自动化测试平台</div>
-        <el-form  :model="login_form"  :rules="login_formRules"  class="hf_login_elform" label-width="1px">
+        <el-form ref="login_forms" :model="login_form"  :rules="login_formRules"  class="hf_login_elform" label-width="1px">
           <!--用户名-->
           <el-form-item prop="username" label=" ">
             <el-input v-model="login_form.username">
@@ -23,7 +23,7 @@
           </el-form-item>
           <!--登陆按钮-->
           <el-form-item class="hf_login_button" >
-            <el-button type="primary" >登陆</el-button>
+            <el-button type="primary" @click="loginmethods" >登陆</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -39,14 +39,10 @@ export default {
       // 登陆表单属性
       login_form: {
         username: 'admin',
-        password: '123456',
-        name: '123456'
+        password: '123456'
       },
-      // verifyicon: false,
+      // 验证规则
       login_formRules: {
-        name: [
-          { required: true, message: '请输入用户名', trigger: 'blur' }
-        ],
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' }
         ],
@@ -54,6 +50,18 @@ export default {
           { required: true, message: '请输入密码', trigger: 'blur' }
         ]
       }
+    }
+  },
+  methods: {
+    loginmethods () {
+      this.$refs.login_forms.validate((valid) => {
+        if (valid) {
+          this.$message('测试')
+        } else {
+          console.log('吊毛，账号密码都不输入还想登陆，吃屎去吧')
+          return false
+        }
+      })
     }
   }
 }
@@ -77,8 +85,8 @@ export default {
   }
   /*表单区域*/
   .hf_login_form{
-    padding: 45px;
-    padding-bottom: 35px;
+    padding: 35px;
+
   }
   .el-input{
     width: 95%;
