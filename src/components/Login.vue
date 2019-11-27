@@ -53,10 +53,23 @@ export default {
     }
   },
   methods: {
+    // 异步请求登陆验证,根据状态码返回如果是ok则返回登陆成功，否则就直接返回错误提示，出错则返回控制台
     loginmethods () {
-      this.$refs.login_forms.validate((valid) => {
+      this.$refs.login_forms.validate(async valid => {
         if (valid) {
-          this.$message('测试')
+          await this.$http.post('/login', this.login_form).then(response => {
+            if (response.data.status === 200) {
+              // 将token信息存储到sessionStorage内
+              window.sessionStorage.setItem('token', response.data.token)
+              this.$message.success(response.data.data)
+              this.$router.push('/home')
+            } else {
+              this.$message.error(response.data.data)
+            }
+          }).catch(function (error) {
+            this.$message.error('网络异常或服务器异常，请重试！')
+            console.log(error)
+          })
         } else {
           console.log('吊毛，账号密码都不输入还想登陆，吃屎去吧')
           return false
