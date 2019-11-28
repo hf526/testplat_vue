@@ -9,7 +9,13 @@ import './assets/font/font_uz6o0eiave/iconfont.css'
 // 导入请求库axios
 import axios from 'axios'
 
+// 请求根路径
 axios.defaults.baseURL = 'http://rap2api.taobao.org/app/mock/238069'
+// 请求拦截器,请求时加入token令牌
+axios.interceptors.request.use(config => {
+  config.headers.authorization = window.sessionStorage.getItem('token')
+  return config
+})
 // 必须使用这个进行注册
 Vue.prototype.$http = axios
 Vue.config.productionTip = false
