@@ -33,7 +33,7 @@
 
 <script>
 export default {
-  name: 'Login',
+  name: 'login',
   data () {
     return {
       // 登陆表单属性

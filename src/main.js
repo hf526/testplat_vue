@@ -5,7 +5,7 @@ import './plugins/element.js'
 // 导入全局样式表
 import './assets/global.css'
 // 导入图表样式
-import './assets/font/font_uz6o0eiave/iconfont.css'
+import './assets/font/font_pnifwcrj0uc/iconfont.css'
 // 导入请求库axios
 import axios from 'axios'
 
