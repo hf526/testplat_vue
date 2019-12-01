@@ -44,7 +44,7 @@
               </template>
               <!--嵌套二级菜单-->
               <el-menu-item v-for="childitem in item.childmenu"
-                     :class="default_menu== childitem.path ? 'active_index':''"  :index="childitem.path"  @click="chargedeafult()" :key="childitem.id" :data-url="childitem.path" >
+                            :index="childitem.path"  @click="chargedeafult()" :key="childitem.id">
                 <i :class='childitem.icon'></i>
                 <span>{{childitem.title}}</span>
               </el-menu-item>
@@ -112,9 +112,6 @@ export default {
 </script>
 
 <style scoped>
-  .active_index {
-    background: red!important;
-  }
   .el-container{
     height: 100%;
   }
