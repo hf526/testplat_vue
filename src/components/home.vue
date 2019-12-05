@@ -44,7 +44,7 @@
               </template>
               <!--嵌套二级菜单-->
               <el-menu-item v-for="childitem in item.childmenu"
-                            :index="childitem.path"  @click="chargedeafult()" :key="childitem.id">
+                            :index="childitem.path"  :key="childitem.id">
                 <i :class='childitem.icon'></i>
                 <span>{{childitem.title}}</span>
               </el-menu-item>
