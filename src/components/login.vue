@@ -1,7 +1,7 @@
 <template>
 
   <!--登陆盒子-->
-  <div class="hf_login_class">
+  <div class="hf_login_class" >
     <!--中部登陆盒子-->
     <div class="hf_login_box">
       <!--登陆头像log-->
@@ -39,7 +39,8 @@ export default {
       // 登陆表单属性
       login_form: {
         username: 'admin',
-        password: '123456'
+        password: '123456',
+        loginclass: { 'hf_login_class': true }
       },
       // 验证规则
       login_formRules: {
@@ -75,6 +76,9 @@ export default {
           return false
         }
       })
+    },
+    mouseOver () {
+
     }
   }
 }
@@ -83,9 +87,25 @@ export default {
 <style scoped>
   /*主区域*/
   .hf_login_class{
-    background: aquamarine;
+    /*background: aquamarine;*/
+    background:url('../assets/login1.jpeg');
+    background-size:cover;
+  /*//设置背景图像是否固定,不随着页面的其余部分滚动。*/
+    background-attachment: fixed;
+  /*//设置背景图片不平铺*/
+    background-repeat:no-repeat;
     height: 100%;
   }
+  /*.hf_login_class{*/
+    /*!*background: aquamarine;*!*/
+    /*background:url('../assets/login.jpeg');*/
+    /*background-size:cover;*/
+    /*!*设置背景图像是否固定,不随着页面的其余部分滚动。*!*/
+    /*background-attachment: fixed;*/
+    /*!*设置背景图片不平铺*!*/
+    /*background-repeat:no-repeat;*/
+    /*height: 100%;*/
+  /*}*/
   /*登陆盒子区域*/
   .hf_login_box{
     background:white;
@@ -94,7 +114,8 @@ export default {
     position:absolute;
     left:50%;
     top:50%;
-    transform:translate(-50%,-50%)
+    transform:translate(-50%,-50%);
+    box-shadow: 3px 3px 3px 3px #c0c4cc, -3px 3px 3px 3px #c0c4cc
   }
   /*表单区域*/
   .hf_login_form{
