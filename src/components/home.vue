@@ -13,10 +13,10 @@
           <el-menu-item @click="showicon" index="661"><i class='iconfont icon-zhedie' ></i></el-menu-item>
           <el-menu-item index="111">首页</el-menu-item>
           <el-submenu index="211">
-            <template slot="title">我的工作台</template>
-            <el-menu-item index="211-1">选项1</el-menu-item>
-            <el-menu-item index="211-2">选项2</el-menu-item>
-            <el-menu-item index="211-3">选项3</el-menu-item>
+            <template slot="title">我的待办事项</template>
+            <el-menu-item index="211-1">奥特曼</el-menu-item>
+            <el-menu-item index="211-2">小怪兽</el-menu-item>
+            <el-menu-item index="211-3">上帝</el-menu-item>
           </el-submenu>
         </el-menu>
         <el-dropdown class="hf_item3">
@@ -58,7 +58,7 @@
           <router-view></router-view>
         </el-main>
         <!--底部区域-->
-        <el-footer>Footer</el-footer>
+        <!--<el-footer><p>版权所有@胡丰</p></el-footer>-->
       </el-container>
     </el-container>
   </el-container>
@@ -72,7 +72,8 @@ export default {
   data () {
     return {
       iconshow: false,
-      menulists: []
+      menulists: [],
+      nowtitle: ''
     }
   },
   methods: {
@@ -87,7 +88,7 @@ export default {
     },
     // 取得菜单方法
     getmenulist () {
-      this.$http.get('showmenu').then(response => {
+      this.$http.get(this.$apilist.getmenu).then(response => {
         if (response.data.status === 200) {
           this.menulists = response.data.data
         } else {
@@ -105,7 +106,9 @@ export default {
 <style scoped>
   .el-container{
     height: 100%;
+    background: #f5f7fa;
   }
+
 .el-header{
   background:#EBF1F6;
 
@@ -129,7 +132,9 @@ export default {
   .el-aside{
     background:#EBF1F6;
   }
-.el-footer{
-    background:#D4D4D4;
-  }
+/*.el-footer{*/
+    /*background:#D4D4D4;*/
+  /*height: 40px!important;*/
+  /*text-align: center;*/
+  /*}*/
 </style>

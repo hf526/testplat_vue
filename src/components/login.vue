@@ -57,7 +57,7 @@ export default {
     loginmethods () {
       this.$refs.login_forms.validate(async valid => {
         if (valid) {
-          await this.$http.post('/login', this.login_form).then(response => {
+          await this.$http.post(this.$apilist.login, this.login_form).then(response => {
             if (response.data.status === 200) {
               // 将token信息存储到sessionStorage内
               window.sessionStorage.setItem('token', response.data.token)

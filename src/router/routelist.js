@@ -2,6 +2,7 @@ import login from '../components/login'
 import home from '../components/home'
 import addsql from '../page/addsql'
 import charge from '../page/charge'
+import user from '../page/user'
 
 const routes = [
   // 主页路由,直接重定向到登陆页
@@ -26,6 +27,10 @@ const routes = [
       {
         path: '/home/charge',
         component: charge
+      },
+      {
+        path: '/home/user',
+        component: user
       }
     ]
   }
