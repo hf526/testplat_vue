@@ -1,5 +1,3 @@
-// module.exports = {
-//
-//   baseUrl: './'
-//
-// }
+module.exports = {
+  assetsDir: 'static'
+}
