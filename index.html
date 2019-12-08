@@ -1,0 +1,11 @@
+server {
+listen       9999;
+server_name  localhost;
+
+location / {
+root   html;
+index  index.html index.htm;
+proxy_pass http://127.0.0.1:8081/admin/; #配置反向代理地址
+#proxy_pass http://tomcat; #多代理配置
+}
+}

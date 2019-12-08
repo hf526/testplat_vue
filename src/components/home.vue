@@ -8,15 +8,15 @@
         <!--水平菜单，默认可登陆用户均有此菜单-->
         <el-menu class="hf_item2"
                  background-color="#EBF1F6" text-color="#606266" active-text-color="#409eff"
-                 mode="horizontal"  >
+                 mode="horizontal" router="" >
           <!--菜单收缩栏目-->
-          <el-menu-item @click="showicon" index="661"><i class='iconfont icon-zhedie' ></i></el-menu-item>
-          <el-menu-item index="111">首页</el-menu-item>
-          <el-submenu index="211">
+          <el-menu-item @click="showicon"><i class='iconfont icon-zhedie' ></i></el-menu-item>
+          <el-menu-item index="/home">首页</el-menu-item>
+          <el-submenu >
             <template slot="title">我的待办事项</template>
-            <el-menu-item index="211-1">奥特曼</el-menu-item>
-            <el-menu-item index="211-2">小怪兽</el-menu-item>
-            <el-menu-item index="211-3">上帝</el-menu-item>
+            <el-menu-item @click="nosuccess1()">好句</el-menu-item>
+            <el-menu-item @click="nosuccess2()">欣赏古诗</el-menu-item>
+            <el-menu-item @click="nosuccess3()">欣赏英文名句</el-menu-item>
           </el-submenu>
         </el-menu>
         <el-dropdown class="hf_item3">
@@ -98,6 +98,15 @@ export default {
         console.log(error)
         this.$message.error('网络异常或服务器异常，请重试')
       })
+    },
+    nosuccess1 () {
+      this.$message.success('常言道，诗酒趁年华！')
+    },
+    nosuccess2 () {
+      this.$message.success('莫愁前路无知己,天下谁人不识君！')
+    },
+    nosuccess3 () {
+      this.$message.success('A day is a miniature of eternity. ( Emerson ) ')
     }
   }
 }
