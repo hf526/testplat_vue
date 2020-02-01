@@ -40,19 +40,16 @@
          <p v-if="JSON.stringify(rteturndata)==='{}'">
            注意:广告id和播放列表只能选择一个输入请求，若两者都输入则以播放列表优先
          </p>
-         <div v-else><JsonView :json="rteturndata"></JsonView></div>
        </el-col>
      </el-row>
    </el-card>
  </div>
 </template>
 <script>
-import JsonView from '../components/tojson'
 import axios from 'axios'
 
 export default {
   name: 'charge',
-  components: { JsonView },
   data () {
     return {
       rteturndata: {},

@@ -58,18 +58,11 @@ export default {
     loginmethods () {
       this.$refs.login_forms.validate(async valid => {
         if (valid) {
-          await this.$http.post(this.$apilist.login, this.login_form).then(response => {
-            if (response.data.status === 200) {
-              // 将token信息存储到sessionStorage内
-              window.sessionStorage.setItem('token', response.data.token)
-              this.$message.success(response.data.data)
-              this.$router.push('/home')
-            } else {
-              this.$message.error(response.data.data)
-            }
-          }).catch(function (error) {
-            this.$message.error('网络异常或服务器异常，请重试！')
-            console.log(error)
+          await this.$post(this.$apilist.login, this.login_form).then(res => {
+            // 将token信息存储到sessionStorage内
+            window.sessionStorage.setItem('token', res.token)
+            this.$message.success(res.data)
+            this.$router.push('/home')
           })
         } else {
           console.log('吊毛，账号密码都不输入还想登陆，吃屎去吧')
@@ -88,7 +81,7 @@ export default {
   /*主区域*/
   .hf_login_class{
     /*background: aquamarine;*/
-    background:url('../assets/login1.jpeg');
+    background:url('../../assets/login1.jpeg');
     background-size:cover;
   /*//设置背景图像是否固定,不随着页面的其余部分滚动。*/
     background-attachment: fixed;
@@ -125,10 +118,6 @@ export default {
   .el-input{
     width: 95%;
   }
-  /*.hf_login_elform{*/
-    /*margin-left: 20px;*/
-    /*margin-right: 20px;*/
-  /*}*/
   /*登陆log*/
   .hf_login_name{
     padding: 30px;

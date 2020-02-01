@@ -1,14 +1,13 @@
 import Vue from 'vue'
 import {
-  Button, Form, FormItem, Input, Menu, MenuItem, Submenu, Message, Container, Footer, Header, Aside, Main, Dropdown,
+  Button, Form, FormItem, Input, Menu, MenuItem, Submenu, Container, Footer, Header, Aside, Main, Dropdown,
   DropdownMenu, DropdownItem, Breadcrumb, BreadcrumbItem, Card, Row, Col, Table, TableColumn, Pagination, Switch, Dialog,
-  Select, Option
+  Select, Option, Message
 } from 'element-ui'
 
 Message.install = function (Vue, options) {
   Vue.prototype.$message = Message
 }
-Vue.use(Message)
 Vue.use(DropdownMenu)
 Vue.use(Dropdown)
 Vue.use(DropdownItem)
@@ -36,4 +35,4 @@ Vue.use(Switch)
 Vue.use(Dialog)
 Vue.use(Select)
 Vue.use(Option)
-// Vue.prototype.$message = Message
+Vue.use(Message)

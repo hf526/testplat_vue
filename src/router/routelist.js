@@ -1,8 +1,8 @@
-import login from '../components/login'
-import home from '../components/home'
+import login from '../page/login/login'
+import home from '../page/home/home'
 import addsql from '../page/addsql'
 import charge from '../page/charge'
-import user from '../page/user'
+import user from '../page/user/user'
 import webcome from '../page/webcome'
 const routes = [
   // 主页路由,直接重定向到登陆页

@@ -88,15 +88,8 @@ export default {
     },
     // 取得菜单方法
     getmenulist () {
-      this.$http.get(this.$apilist.getmenu).then(response => {
-        if (response.data.status === 200) {
-          this.menulists = response.data.data
-        } else {
-          this.$message.error(JSON.stringify(response.data.data))
-        }
-      }).catch(function (error) {
-        console.log(error)
-        this.$message.error('网络异常或服务器异常，请重试')
+      this.$get(this.$apilist.getmenu).then(res => {
+        this.menulists = res.data
       })
     },
     nosuccess1 () {
@@ -130,20 +123,14 @@ export default {
   align-items:center;
 }
 /*将头部item左移，230是左边的宽度，*/
-  .hf_item1 {
-    text-align: center;
-    width: 180px;
-  }
-  .hf_item2 {
-    margin-right: auto;
-  }
-
-  .el-aside{
-    background:#EBF1F6;
-  }
-/*.el-footer{*/
-    /*background:#D4D4D4;*/
-  /*height: 40px!important;*/
-  /*text-align: center;*/
-  /*}*/
+.hf_item1 {
+  text-align: center;
+  width: 180px;
+}
+.hf_item2 {
+  margin-right: auto;
+}
+.el-aside{
+  background:#EBF1F6;
+}
 </style>
