@@ -3,7 +3,7 @@
     <!--导航区域-->
     <el-breadcrumb separator="/">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item><a>用户管理</a></el-breadcrumb-item>
+      <el-breadcrumb-item><a>用户权限</a></el-breadcrumb-item>
     </el-breadcrumb>
     <el-card class="box-card">
       <!--导航区域-->
@@ -27,8 +27,7 @@
       <!--表格区域-->
       <el-table :data="userdata" width="120px">
         <el-table-column label="ID" type="index" width="120px"></el-table-column>
-        <el-table-column label="用户名" prop="username"></el-table-column>
-        <el-table-column label="角色" prop="role"></el-table-column>
+        <el-table-column label="角色权限" prop="role"></el-table-column>
         <el-table-column label="更新时间" prop="updatedate"></el-table-column>
         <el-table-column label="状态" prop="status">
           <template slot-scope="scope">
@@ -105,7 +104,7 @@
 
 <script>
 export default {
-  name: 'user',
+  name: 'UserPermissions',
   // 组件创造初始化方法，
   watch: {
     dialogFormVisible (newfrom, oldform) {
@@ -172,7 +171,7 @@ export default {
       })
     },
     update () {
-      this.$refs.editform.validate((valid) => {
+      this.$refs.form.validate((valid) => {
         if (valid) {
           this.$post(this.$apilist.userlist, this.eduserform)
             .then(res => {
