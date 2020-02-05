@@ -31,7 +31,7 @@
     </el-header>
     <el-container>
       <!--左侧区域-->
-      <el-aside :width="iconshow ? '80px' : '200px'">
+      <el-aside :width="iconshow ? '80px' : '200px'" style="height: 100%">
         <!--侧边栏菜单-->
         <el-menu  :collapse='iconshow' :collapse-transition=false :default-active="$route.path"
                   background-color="#EBF1F6" text-color="#606266" active-text-color="#409eff"
@@ -106,6 +106,9 @@ export default {
 </script>
 
 <style scoped>
+  ::-webkit-scrollbar{
+    display:none;
+  }
   .el-container{
     height: 100%;
     background: #f5f7fa;
