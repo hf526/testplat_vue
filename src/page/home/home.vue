@@ -8,25 +8,25 @@
         <!--水平菜单，默认可登陆用户均有此菜单-->
         <el-menu class="hf_item2"
                  background-color="#EBF1F6" text-color="#606266" active-text-color="#409eff"
-                 mode="horizontal" router="" >
+                 mode="horizontal" router=""  index="sss">
           <!--菜单收缩栏目-->
-          <el-menu-item @click="showicon"><i class='iconfont icon-zhedie' ></i></el-menu-item>
-          <el-menu-item index="/home">首页</el-menu-item>
-          <el-submenu >
+          <el-menu-item @click="showicon"><i class='iconfont icon-zhedie' index="ssss"></i></el-menu-item>
+          <el-menu-item index="/home" >首页</el-menu-item>
+          <el-submenu index="sssss">
             <template slot="title">我的待办事项</template>
-            <el-menu-item @click="nosuccess1()">好句</el-menu-item>
-            <el-menu-item @click="nosuccess2()">欣赏古诗</el-menu-item>
-            <el-menu-item @click="nosuccess3()">欣赏英文名句</el-menu-item>
+            <el-menu-item @click="nosuccess1()" index="sss1">好句</el-menu-item>
+            <el-menu-item @click="nosuccess2()" index="sss2">欣赏古诗</el-menu-item>
+            <el-menu-item @click="nosuccess3()" index="sss3">欣赏英文名句</el-menu-item>
           </el-submenu>
         </el-menu>
         <el-dropdown class="hf_item3">
           <span class="el-dropdown-link">
             您好! 管理员
           </span>
-              <el-dropdown-menu slot="dropdown" >
-                <el-dropdown-item ><a @click="logout">注销</a></el-dropdown-item>
-              </el-dropdown-menu>
-          </el-dropdown>
+          <el-dropdown-menu slot="dropdown" >
+            <el-dropdown-item ><a @click="logout">注销</a></el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </div>
     </el-header>
     <el-container>
@@ -38,16 +38,16 @@
                   unique-opened router  >
           <!--一级菜单-->
           <el-submenu v-for="item in menulists" :key="item.id" :index="item.path">
-              <template slot="title">
-                <i :class='item.icon'></i>
-                <span>{{item.title}}</span>
-              </template>
-              <!--嵌套二级菜单-->
-              <el-menu-item v-for="childitem in item.childmenu"
-                            :index="childitem.path"  :key="childitem.id">
-                <i :class='childitem.icon'></i>
-                <span>{{childitem.title}}</span>
-              </el-menu-item>
+            <template slot="title">
+              <i :class='item.icon'></i>
+              <span>{{item.title}}</span>
+            </template>
+            <!--嵌套二级菜单-->
+            <el-menu-item v-for="childitem in item.childmenu"
+                          :index="childitem.path"  :key="childitem.id">
+              <i :class='childitem.icon'></i>
+              <span>{{childitem.title}}</span>
+            </el-menu-item>
           </el-submenu>
         </el-menu>
       </el-aside>
@@ -114,26 +114,26 @@ export default {
     background: #f5f7fa;
   }
 
-.el-header{
-  background:#EBF1F6;
+  .el-header{
+    background:#EBF1F6;
 
-}
-/*头部样式*/
-.hf_header{
-  display: -webkit-flex;
-  display: flex;
-  justify-content: space-between;
-  align-items:center;
-}
-/*将头部item左移，230是左边的宽度，*/
-.hf_item1 {
-  text-align: center;
-  width: 180px;
-}
-.hf_item2 {
-  margin-right: auto;
-}
-.el-aside{
-  background:#EBF1F6;
-}
+  }
+  /*头部样式*/
+  .hf_header{
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-between;
+    align-items:center;
+  }
+  /*将头部item左移，230是左边的宽度，*/
+  .hf_item1 {
+    text-align: center;
+    width: 180px;
+  }
+  .hf_item2 {
+    margin-right: auto;
+  }
+  .el-aside{
+    background:#EBF1F6;
+  }
 </style>

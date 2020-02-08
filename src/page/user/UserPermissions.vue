@@ -2,7 +2,7 @@
   <div>
     <!--导航区域-->
     <el-breadcrumb separator="/">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/home/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item><a>用户权限</a></el-breadcrumb-item>
     </el-breadcrumb>
     <el-card class="box-card">
@@ -25,9 +25,10 @@
         </el-col>
       </el-row>
       <!--表格区域-->
-      <el-table :data="userdata" width="120px">
+      <el-table :data="tabledata" >
         <el-table-column label="ID" type="index" width="120px"></el-table-column>
         <el-table-column label="角色权限" prop="role"></el-table-column>
+        <el-table-column label="创建时间" prop="createdate"></el-table-column>
         <el-table-column label="更新时间" prop="updatedate"></el-table-column>
         <el-table-column label="状态" prop="status">
           <template slot-scope="scope">
@@ -36,9 +37,15 @@
             </el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="权限" width="200px">
           <template slot-scope="scope">
-            <el-button size="mini" @click="edit(scope.row)">编辑</el-button>
+            <el-button size="mini" @click="edit(scope.row,'icon')">菜单</el-button>
+            <el-button size="mini" @click="edit(scope.row,'api')">后台</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" >
+          <template slot-scope="scope">
+            <el-button size="mini" @click="edit(scope.row,)">编辑</el-button>
             <el-button size="mini" type="danger" @click="del(scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -50,21 +57,30 @@
                      layout="total, sizes, prev, pager, next, jumper"></el-pagination>
 
       <!--添加用户-->
-      <el-dialog title="添加用户" :visible.sync="dialogFormVisible" :show-close=false center width="28%"
+      <el-dialog title="添加用户" :visible.sync="dialogFormVisible" :show-close=false center width="30%"
                  class="addupdialog">
-        <el-form ref="form" :rules="userrules" :model="userform" label-position="left" label-width="70px"
+        <el-form ref="form" :rules="therules" :model="addform" label-position="left" label-width="80px"
                  style="margin-bottom: -20px;margin-right: 5px">
-          <el-form-item label="用户名" prop="username">
-            <el-input v-model="userform.username"></el-input>
+          <el-form-item label="角色名" prop="role">
+            <el-input v-model="addform.role"></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="password">
-            <el-input v-model="userform.password" show-password></el-input>
+          <el-form-item label="菜单权限">
+            <el-tree
+              :data="addform.data"
+              show-checkbox
+              node-key="id"
+              ref="addctree"
+              :props="defaultProps">
+            </el-tree>
           </el-form-item>
-          <el-form-item label="角色" prop="role">
-            <el-select v-model="userform.role" placeholder="请选择角色权限" class="size-full">
-              <el-option label="管理员" value="0"></el-option>
-              <el-option label="测试员" value="1"></el-option>
-            </el-select>
+          <el-form-item label="接口权限" >
+            <el-tree
+              :data="addform.data"
+              show-checkbox
+              node-key="id"
+              ref="addhtree"
+              :props="defaultProps">
+            </el-tree>
           </el-form-item>
           <el-form-item>
             <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -76,23 +92,59 @@
       </el-dialog>
 
       <!--编辑用户-->
-      <el-dialog title="编辑用户" :visible.sync="edituser" :show-close=false center width="28%" class="addupdialog">
-        <el-form ref="editform" :rules="userrules" :model="eduserform" label-position="left" label-width="70px"
+      <el-dialog title="编辑角色" :visible.sync="edituser" :show-close=false center width="30%"
+                 class="addupdialog">
+        <el-form ref="editform" :rules="therules" :model="editform" label-position="left" label-width="80px"
                  style="margin-bottom: -20px;margin-right: 5px">
-          <el-form-item label="用户名" prop="username">
-            <el-input v-model="eduserform.username"></el-input>
-          </el-form-item>
-          <el-form-item label="密码" prop="password">
-            <el-input v-model="eduserform.password" show-password></el-input>
-          </el-form-item>
-          <el-form-item label="角色" prop="role">
-            <el-select v-model="eduserform.role" placeholder="请选择角色权限" class="size-full">
-              <el-option label="管理员" value="0"></el-option>
-              <el-option label="测试员" value="1"></el-option>
-            </el-select>
+          <el-form-item label="角色名" prop="role">
+            <el-input v-model="editform.role"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button @click="edituser = false">取 消</el-button>
+            <el-button type="primary" @click="update">确 定</el-button>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
+
+      <!--菜单权限显示 -->
+      <el-dialog :title="rolename" :visible.sync="iconpermissions" :show-close=false center width="32%">
+        <el-form ref="editform" :rules="therules" :model="editform" label-position="left" label-width="80px"
+                 style="margin-bottom: -20px;margin-right: 5px">
+          <el-form-item label="菜单权限">
+            <el-tree
+              :data="editform.data"
+              show-checkbox
+              default-expand-all
+              node-key="id"
+              ref="editctree"
+              :default-checked-keys="checkkey"
+              :props="defaultProps">
+            </el-tree>
+          </el-form-item>
+          <el-form-item>
+            <el-button @click="iconpermissions = false">取 消</el-button>
+            <el-button type="primary" @click="update">确 定</el-button>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
+
+      <!--后台权限显示 -->
+      <el-dialog :title="rolename" :visible.sync="apipermissions" :show-close=false center width="32%">
+        <el-form ref="editform" :rules="therules" :model="editform" label-position="left" label-width="80px"
+                 style="margin-bottom: -20px;margin-right: 5px">
+          <el-form-item label="接口权限">
+            <el-tree
+              :data="editform.data"
+              show-checkbox
+              default-expand-all
+              node-key="id"
+              ref="editctree"
+              :default-checked-keys="checkkey"
+              :props="defaultProps">
+            </el-tree>
+          </el-form-item>
+          <el-form-item>
+            <el-button @click="apipermissions = false">取 消</el-button>
             <el-button type="primary" @click="update">确 定</el-button>
           </el-form-item>
         </el-form>
@@ -108,10 +160,14 @@ export default {
   // 组件创造初始化方法，
   watch: {
     dialogFormVisible (newfrom, oldform) {
-      this.$refs.form.resetFields()
+      if (newfrom === false) {
+        this.$refs.form.resetFields()
+      }
     },
     edituser (newfrom, oldform) {
-      this.$refs.editform.resetFields()
+      if (newfrom === false) {
+        this.$refs.editform.resetFields()
+      }
     }
   },
   created () {
@@ -119,6 +175,11 @@ export default {
   },
   data () {
     return {
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      },
+      checkkey: [],
       // 分页字段
       queryinfo: {
         total: 1,
@@ -126,32 +187,146 @@ export default {
         pagesize: 10,
         query: ''
       },
-      userform: {
-        role: '1',
-        password: '',
-        username: ''
+      addform: {
+        role: '',
+        data: [{
+          id: 1,
+          label: '项目管理',
+          children: [{
+            id: 1.1,
+            label: '环境管理',
+            children: [{
+              id: '1.1.1',
+              label: '新增'
+            }, {
+              id: '1.1.2',
+              label: '删除'
+            }]
+          },
+          {
+            id: 1.2,
+            label: '项目信息'
+          },
+          {
+            id: 1.3,
+            label: '模块管理'
+          },
+          {
+            id: 1.4,
+            label: '接口管理'
+          },
+          {
+            id: 1.5,
+            label: '用例管理'
+          }]
+        }, {
+          id: 2,
+          label: '报告管理',
+          children: [{
+            id: 2.1,
+            label: '测试报告'
+          }, {
+            id: 2.2,
+            label: '定时任务'
+          }]
+        }, {
+          id: 3,
+          label: '工具管理',
+          children: [{
+            id: 3.1,
+            label: '工具列表'
+          }, {
+            id: 3.2,
+            label: '内置函数'
+          }]
+        }, {
+          id: 4,
+          label: '用户管理',
+          children: [{
+            id: 4.1,
+            label: '用户权限'
+          }, {
+            id: 4.2,
+            label: '用户编辑'
+          }]
+        }]
       },
-      eduserform: {
-        role: '1',
-        password: '',
-        username: ''
+      editform: {
+        role: '',
+        data: [{
+          id: 1,
+          label: '项目管理',
+          children: [{
+            id: 1.1,
+            label: '环境管理',
+            children: [{
+              id: '1.1.1',
+              label: '新增'
+            }, {
+              id: '1.1.2',
+              label: '删除'
+            }]
+          },
+          {
+            id: 1.2,
+            label: '项目信息'
+          },
+          {
+            id: 1.3,
+            label: '模块管理'
+          },
+          {
+            id: 1.4,
+            label: '接口管理'
+          },
+          {
+            id: 1.5,
+            label: '用例管理'
+          }]
+        }, {
+          id: 2,
+          label: '报告管理',
+          children: [{
+            id: 2.1,
+            label: '测试报告'
+          }, {
+            id: 2.2,
+            label: '定时任务'
+          }]
+        }, {
+          id: 3,
+          label: '工具管理',
+          children: [{
+            id: 3.1,
+            label: '工具列表'
+          }, {
+            id: 3.2,
+            label: '内置函数'
+          }]
+        }, {
+          id: 4,
+          label: '用户管理',
+          children: [{
+            id: 4.1,
+            label: '用户权限'
+          }, {
+            id: 4.2,
+            label: '用户编辑'
+          }]
+        }]
       },
-      userrules: {
-        username: [
-          { required: true, message: '请输入用户名', trigger: 'blur' },
-          { min: 3, max: 12, message: '长度在 3 到 12 个字符', trigger: 'blur' }
-        ],
-        password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }
-        ],
+      therules: {
         role: [
-          { required: true, message: '请选择角色权限', trigger: 'change' }
+          { required: true, message: '请输入角色名', trigger: 'blur' },
+          { min: 3, max: 12, message: '长度在 3 到 12 个字符', trigger: 'blur' }
         ]
       },
-      userdata: [],
+      tabledata: [],
       dialogFormVisible: false,
-      edituser: false
+      edituser: false,
+      apipermissions: false,
+      iconpermissions: false,
+      rolename: ''
     }
   },
   methods: {
@@ -159,7 +334,7 @@ export default {
     add () {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          this.$post(this.$apilist.userlist, this.userform)
+          this.$post(this.$apilist.roles, this.addform)
             .then(res => {
               this.$message.success('新增成功')
               this.getuserlist()
@@ -171,13 +346,15 @@ export default {
       })
     },
     update () {
-      this.$refs.form.validate((valid) => {
+      this.$refs.editform.validate((valid) => {
         if (valid) {
-          this.$post(this.$apilist.userlist, this.eduserform)
+          this.$post(this.$apilist.roles, this.editform)
             .then(res => {
               this.$message.success('编辑成功')
               this.getuserlist()
               this.edituser = false
+              this.iconpermissions = false
+              this.apipermissions = false
             })
         } else {
           return false
@@ -185,28 +362,38 @@ export default {
       })
     },
     // 查询获取用户列表
-    async getuserlist () {
-      await this.$get(this.$apilist.userlist, this.queryinfo)
+    getuserlist () {
+      this.$get(this.$apilist.roles, this.queryinfo)
         .then(res => {
-          this.userdata = res.data
+          this.tabledata = res.data
           this.queryinfo.total = res.total
           this.queryinfo.page = res.page
         })
     },
     // 修改用户状态
-    async chargestatus (userinfo) {
-      await this.$post(this.$apilist.upuserstatus, userinfo)
+    chargestatus (userinfo) {
+      this.$post(this.$apilist.upuserstatus, userinfo)
         .then(res => {
           this.$message.success('更新成功！')
         })
     },
-    // 修改用户弹框
-    edit (userinfo) {
-      this.edituser = true
-      this.eduserform = userinfo
+    // 编辑
+    edit (userinfo, kinds) {
+      if (kinds === 'icon') {
+        this.iconpermissions = true
+      } else if (kinds === 'api') {
+        this.apipermissions = true
+      } else {
+        this.edituser = true
+      }
+      this.checkkey = userinfo.data
+      this.editform.role = userinfo.role
+      this.rolename = userinfo.role
+      this.$refs.editctree.setCheckedKeys(this.checkkey)
     },
+    // 删除用户
     del (userinfo) {
-      this.$post(this.$apilist.userlist, userinfo)
+      this.$post(this.$apilist.roles, userinfo)
         .then(res => {
           this.$message.success('删除成功！')
           this.getuserlist()

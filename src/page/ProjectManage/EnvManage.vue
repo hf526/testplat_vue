@@ -25,10 +25,11 @@
         </el-col>
       </el-row>
       <!--表格区域-->
-      <el-table :data="tabledata" width="120px">
+      <el-table :data="userdata" width="120px">
         <el-table-column label="ID" type="index" width="120px"></el-table-column>
-        <el-table-column label="用户名" prop="name"></el-table-column>
-        <el-table-column label="角色" prop="role"></el-table-column>
+        <el-table-column label="环境名称" prop="username"></el-table-column>
+        <el-table-column label="环境地址" prop="role"></el-table-column>
+        <el-table-column label="关联项目" prop="role"></el-table-column>
         <el-table-column label="创建时间" prop="createdate"></el-table-column>
         <el-table-column label="更新时间" prop="updatedate"></el-table-column>
         <el-table-column label="状态" prop="status">
@@ -54,16 +55,16 @@
       <!--添加用户-->
       <el-dialog title="添加用户" :visible.sync="dialogFormVisible" :show-close=false  width="28%"
                  class="addupdialog">
-        <el-form ref="form" :rules="therules" :model="addform" label-position="left" label-width="70px"
+        <el-form ref="form" :rules="userrules" :model="userform" label-position="left" label-width="70px"
                  style="margin-bottom: -20px;margin-right: 5px">
-          <el-form-item label="用户名" prop="name">
-            <el-input v-model="addform.name"></el-input>
+          <el-form-item label="用户名" prop="username">
+            <el-input v-model="userform.username"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="password">
-            <el-input v-model="addform.password" show-password></el-input>
+            <el-input v-model="userform.password" show-password></el-input>
           </el-form-item>
           <el-form-item label="角色" prop="role">
-            <el-select v-model="addform.role" placeholder="请选择角色权限" class="size-full">
+            <el-select v-model="userform.role" placeholder="请选择角色权限" class="size-full">
               <el-option label="管理员" value="0"></el-option>
               <el-option label="测试员" value="1"></el-option>
             </el-select>
@@ -79,16 +80,16 @@
 
       <!--编辑用户-->
       <el-dialog title="编辑用户" :visible.sync="edituser" :show-close=false width="28%" class="addupdialog">
-        <el-form ref="editform" :rules="therules" :model="editform" label-position="left" label-width="70px"
+        <el-form ref="editform" :rules="userrules" :model="eduserform" label-position="left" label-width="70px"
                  style="margin-bottom: -20px;margin-right: 5px">
-          <el-form-item label="用户名" prop="name">
-            <el-input v-model="editform.name"></el-input>
+          <el-form-item label="用户名" prop="username">
+            <el-input v-model="eduserform.username"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="password">
-            <el-input v-model="editform.password" show-password></el-input>
+            <el-input v-model="eduserform.password" show-password></el-input>
           </el-form-item>
           <el-form-item label="角色" prop="role">
-            <el-select v-model="editform.role" placeholder="请选择角色权限" class="size-full">
+            <el-select v-model="eduserform.role" placeholder="请选择角色权限" class="size-full">
               <el-option label="管理员" value="0"></el-option>
               <el-option label="测试员" value="1"></el-option>
             </el-select>
@@ -106,7 +107,7 @@
 
 <script>
 export default {
-  name: 'user',
+  name: 'EnvManage',
   // 组件创造初始化方法，
   watch: {
     dialogFormVisible (newfrom, oldform) {
@@ -132,18 +133,18 @@ export default {
         pagesize: 10,
         query: ''
       },
-      addform: {
+      userform: {
         role: '1',
         password: '',
-        name: ''
+        username: ''
       },
-      editform: {
+      eduserform: {
         role: '1',
         password: '',
-        name: ''
+        username: ''
       },
-      therules: {
-        name: [
+      userrules: {
+        username: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
           { min: 3, max: 12, message: '长度在 3 到 12 个字符', trigger: 'blur' }
         ],
@@ -155,7 +156,7 @@ export default {
           { required: true, message: '请选择角色权限', trigger: 'change' }
         ]
       },
-      tabledata: [],
+      userdata: [],
       dialogFormVisible: false,
       edituser: false
     }
@@ -165,7 +166,7 @@ export default {
     add () {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          this.$post(this.$apilist.userlist, this.addform)
+          this.$post(this.$apilist.userlist, this.userform)
             .then(res => {
               this.$message.success('新增成功')
               this.getuserlist()
@@ -179,7 +180,7 @@ export default {
     update () {
       this.$refs.editform.validate((valid) => {
         if (valid) {
-          this.$post(this.$apilist.userlist, this.editform)
+          this.$post(this.$apilist.userlist, this.eduserform)
             .then(res => {
               this.$message.success('编辑成功')
               this.getuserlist()
@@ -194,7 +195,7 @@ export default {
     getuserlist () {
       this.$get(this.$apilist.userlist, this.queryinfo)
         .then(res => {
-          this.tabledata = res.data
+          this.userdata = res.data
           this.queryinfo.total = res.total
           this.queryinfo.page = res.page
         })
@@ -208,9 +209,9 @@ export default {
     },
     // 修改用户弹框
     edit (userinfo) {
-      this.editform.role = userinfo.role
-      this.editform.name = userinfo.name
-      this.editform.password = userinfo.password
+      this.eduserform.role = userinfo.role
+      this.eduserform.username = userinfo.username
+      this.eduserform.password = userinfo.password
       this.edituser = true
     },
     del (userinfo) {

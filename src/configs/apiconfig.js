@@ -2,6 +2,7 @@
 const apilist = {
   // 获取用户列表
   userlist: '/userlist',
+  roles: '/roles',
   useradd: '/useradd',
   login: '/login',
   getmenu: '/showmenu',

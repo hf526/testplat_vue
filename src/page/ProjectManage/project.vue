@@ -3,7 +3,7 @@
     <!--导航区域-->
     <el-breadcrumb separator="/">
       <el-breadcrumb-item :to="{ path: '/home/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item><a>用户编辑</a></el-breadcrumb-item>
+      <el-breadcrumb-item><a>项目信息</a></el-breadcrumb-item>
     </el-breadcrumb>
     <el-card class="box-card">
       <!--导航区域-->
@@ -27,17 +27,10 @@
       <!--表格区域-->
       <el-table :data="tabledata" width="120px">
         <el-table-column label="ID" type="index" width="120px"></el-table-column>
-        <el-table-column label="用户名" prop="name"></el-table-column>
-        <el-table-column label="角色" prop="role"></el-table-column>
+        <el-table-column label="项目名称" prop="name"></el-table-column>
+        <el-table-column label="负责人" prop="role"></el-table-column>
+        <el-table-column label="状态" prop="status"></el-table-column>
         <el-table-column label="创建时间" prop="createdate"></el-table-column>
-        <el-table-column label="更新时间" prop="updatedate"></el-table-column>
-        <el-table-column label="状态" prop="status">
-          <template slot-scope="scope">
-            <el-switch v-model="scope.row.status"
-                       @change="chargestatus(scope.row)" active-color="#13ce66">
-            </el-switch>
-          </template>
-        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button size="mini" @click="edit(scope.row)">编辑</el-button>
@@ -52,20 +45,25 @@
                      layout="total, sizes, prev, pager, next, jumper"></el-pagination>
 
       <!--添加用户-->
-      <el-dialog title="添加用户" :visible.sync="dialogFormVisible" :show-close=false  width="28%"
+      <el-dialog title="添加项目" :visible.sync="dialogFormVisible" :show-close=false  width="28%"
                  class="addupdialog">
-        <el-form ref="form" :rules="therules" :model="addform" label-position="left" label-width="70px"
+        <el-form ref="form" :rules="therules" :model="addform" label-position="left" label-width="80px"
                  style="margin-bottom: -20px;margin-right: 5px">
-          <el-form-item label="用户名" prop="name">
+          <el-form-item label="项目名称" prop="name">
             <el-input v-model="addform.name"></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="password">
-            <el-input v-model="addform.password" show-password></el-input>
+          <el-form-item label="状态" prop="role">
+            <el-select v-model="addform.status" placeholder="项目状态" class="size-full">
+              <el-option label="未开始" value="0"></el-option>
+              <el-option label="进行中" value="1"></el-option>
+              <el-option label="暂停中" value="2"></el-option>
+              <el-option label="已结束" value="3"></el-option>
+            </el-select>
           </el-form-item>
-          <el-form-item label="角色" prop="role">
-            <el-select v-model="addform.role" placeholder="请选择角色权限" class="size-full">
-              <el-option label="管理员" value="0"></el-option>
-              <el-option label="测试员" value="1"></el-option>
+          <el-form-item label="负责人" prop="role">
+            <el-select v-model="addform.role" placeholder="请选择负责人" class="size-full">
+              <el-option label="张三" value="0"></el-option>
+              <el-option label="李四" value="1"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
@@ -79,18 +77,23 @@
 
       <!--编辑用户-->
       <el-dialog title="编辑用户" :visible.sync="edituser" :show-close=false width="28%" class="addupdialog">
-        <el-form ref="editform" :rules="therules" :model="editform" label-position="left" label-width="70px"
+        <el-form ref="editform" :rules="therules" :model="editform" label-position="left" label-width="80px"
                  style="margin-bottom: -20px;margin-right: 5px">
-          <el-form-item label="用户名" prop="name">
+          <el-form-item label="项目名称" prop="name">
             <el-input v-model="editform.name"></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="password">
-            <el-input v-model="editform.password" show-password></el-input>
+          <el-form-item label="状态" prop="role">
+            <el-select v-model="editform.status" placeholder="项目状态" class="size-full">
+              <el-option label="未开始" value="0"></el-option>
+              <el-option label="进行中" value="1"></el-option>
+              <el-option label="暂停中" value="2"></el-option>
+              <el-option label="已结束" value="3"></el-option>
+            </el-select>
           </el-form-item>
-          <el-form-item label="角色" prop="role">
-            <el-select v-model="editform.role" placeholder="请选择角色权限" class="size-full">
-              <el-option label="管理员" value="0"></el-option>
-              <el-option label="测试员" value="1"></el-option>
+          <el-form-item label="负责人" prop="role">
+            <el-select v-model="editform.role" placeholder="请选择负责人" class="size-full">
+              <el-option label="张三" value="0"></el-option>
+              <el-option label="李四" value="1"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
@@ -106,7 +109,7 @@
 
 <script>
 export default {
-  name: 'user',
+  name: 'project',
   // 组件创造初始化方法，
   watch: {
     dialogFormVisible (newfrom, oldform) {
@@ -133,6 +136,7 @@ export default {
         query: ''
       },
       addform: {
+        status: '1',
         role: '1',
         password: '',
         name: ''
