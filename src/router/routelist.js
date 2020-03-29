@@ -1,12 +1,11 @@
 import login from '../page/login/login'
 import home from '../page/home/home'
-import addsql from '../page/addsql'
-import charge from '../page/charge'
-import user from '../page/user/user'
-import UserPermissions from '../page/user/UserPermissions'
-import project from '../page/ProjectManage/project'
-import model from '../page/ProjectManage/model'
-import webcome from '../page/webcome'
+import user from '../page/home/user/user'
+import UserPermissions from '../page/home/user/UserPermissions'
+import project from '../page/home/ProjectManage/project'
+import model from '../page/home/ProjectManage/model'
+import ApiManage from '../page/home/ProjectManage/ApiManage/ApiManage'
+import webcome from '../page/webcome/webcome'
 const routes = [
   // 主页路由,直接重定向到登陆页
   {
@@ -29,14 +28,6 @@ const routes = [
         component: webcome
       },
       {
-        path: '/home/addsql',
-        component: addsql
-      },
-      {
-        path: '/home/charge',
-        component: charge
-      },
-      {
         path: '/home/user',
         component: user
       },
@@ -51,6 +42,10 @@ const routes = [
       {
         path: '/home/model',
         component: model
+      },
+      {
+        path: '/home/ApiManage',
+        component: ApiManage
       }
     ]
   }

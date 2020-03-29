@@ -66,6 +66,9 @@
               <el-option label="李四" value="1"></el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="基础URL" prop="name">
+            <el-input v-model="addform.name"></el-input>
+          </el-form-item>
           <el-form-item>
             <el-button @click="dialogFormVisible = false">取 消</el-button>
             <el-button type="primary" @click="add">确 定</el-button>

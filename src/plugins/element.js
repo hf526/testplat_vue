@@ -2,12 +2,15 @@ import Vue from 'vue'
 import {
   Button, Form, FormItem, Input, Menu, MenuItem, Submenu, Container, Footer, Header, Aside, Main, Dropdown,
   DropdownMenu, DropdownItem, Breadcrumb, BreadcrumbItem, Card, Row, Col, Table, TableColumn, Pagination, Switch, Dialog,
-  Select, Option, Message, Tree, Scrollbar
+  Select, Option, Message, Tree, Scrollbar, Tabs, TabPane, Divider
 } from 'element-ui'
 
 Message.install = function (Vue, options) {
   Vue.prototype.$message = Message
 }
+Vue.use(Divider)
+Vue.use(Tabs)
+Vue.use(TabPane)
 Vue.use(Scrollbar)
 Vue.use(DropdownMenu)
 Vue.use(Dropdown)

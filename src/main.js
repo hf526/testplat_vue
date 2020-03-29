@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import './plugins/element.js'
+import store from '@/store/store'
 // 导入全局样式表
 import './assets/global.css'
 // 导入图表样式
@@ -18,6 +19,7 @@ Vue.prototype.$get = get
 Vue.config.productionTip = false
 // 注册时路由对象
 Vue.prototype.$apilist = apilist
+Vue.prototype.$store = store
 
 new Vue({
   router,

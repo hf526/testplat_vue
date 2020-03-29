@@ -128,56 +128,56 @@
 </template>
 
 <script>
-  export default {
-    created () {
-      this.getmenulist()
-    },
-    data () {
-      return {
-        iconshow: false,
-        menulists: [],
-        nowtitle: '',
-        showmenus: {
-          项目管理: false,
-          环境管理: false,
-          项目信息: false
-          // 项目管理:false,
-          // 项目管理:false,
-          // 项目管理:false,
-          // 项目管理:false,
-          // 项目管理:false,
-          // 项目管理:false,
-          // 项目管理:false
-        }
-      }
-    },
-    methods: {
-      // icon显示方法
-      showicon () {
-        this.iconshow = !this.iconshow
-      },
-      // 退出方法
-      logout () {
-        window.sessionStorage.clear()
-        this.$router.push('/')
-      },
-      // 取得菜单方法
-      getmenulist () {
-        this.$get(this.$apilist.getmenu).then(res => {
-          this.menulists = res.data
-        })
-      },
-      nosuccess1 () {
-        this.$message.success('常言道，诗酒趁年华！')
-      },
-      nosuccess2 () {
-        this.$message.success('莫愁前路无知己,天下谁人不识君！')
-      },
-      nosuccess3 () {
-        this.$message.success('A day is a miniature of eternity. ( Emerson ) ')
+export default {
+  created () {
+    this.getmenulist()
+  },
+  data () {
+    return {
+      iconshow: false,
+      menulists: [],
+      nowtitle: '',
+      showmenus: {
+        项目管理: false,
+        环境管理: false,
+        项目信息: false
+        // 项目管理:false,
+        // 项目管理:false,
+        // 项目管理:false,
+        // 项目管理:false,
+        // 项目管理:false,
+        // 项目管理:false,
+        // 项目管理:false
       }
     }
+  },
+  methods: {
+    // icon显示方法
+    showicon () {
+      this.iconshow = !this.iconshow
+    },
+    // 退出方法
+    logout () {
+      window.sessionStorage.clear()
+      this.$router.push('/')
+    },
+    // 取得菜单方法
+    getmenulist () {
+      this.$get(this.$apilist.getmenu).then(res => {
+        this.menulists = res.data
+      })
+    },
+    nosuccess1 () {
+      this.$message.success('常言道，诗酒趁年华！')
+    },
+    nosuccess2 () {
+      this.$message.success('莫愁前路无知己,天下谁人不识君！')
+    },
+    nosuccess3 () {
+      this.$message.success('A day is a miniature of eternity. ( Emerson ) ')
+    }
   }
+}
 </script>
 
 <style scoped>
