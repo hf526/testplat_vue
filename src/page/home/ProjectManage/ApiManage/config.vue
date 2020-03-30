@@ -26,7 +26,7 @@
     <el-form-item label="基础信息" prop="name">
       <el-row :gutter="24">
         <el-col :span="4">
-          <el-input v-model="form.name" placeholder="接口名称"></el-input>
+          <el-input v-model="form.name" placeholder="用例名称"></el-input>
         </el-col>
         <el-col :span="4">
           <el-select v-model="form.projectname" @change="selmodel" placeholder="请选择关联的项目">
@@ -93,11 +93,54 @@
               </el-col>
             </div>
           </el-row>
+        </el-tab-pane>
+        <el-tab-pane label="Body" name="third">
+          <el-radio v-model="sel_req" label="xform" size="mini">x-www-form-urlencoded</el-radio>
+          <el-radio v-model="sel_req" label="json" size="mini">json</el-radio>
+          <el-radio v-model="sel_req" label="file" size="mini">fileupload</el-radio>
+          <el-radio v-model="sel_req" label="pb" size="mini">protobuf</el-radio>
+          <el-button v-if="sel_req!=='file'" size="mini" @click="show_req=!show_req">切换文本模式</el-button>
+          <el-button v-if="sel_req==='file'" size="mini">文件上传</el-button>
+          <el-button v-if="sel_req==='pb'" size="mini">关联PB文件</el-button>
+          <el-button v-if="sel_req!=='file'" size="mini">格式化</el-button>
+          <el-row :gutter="24" v-if="show_req && sel_req!='file'">
+            <div>
+              <el-col :span="8">
+                Key
+              </el-col>
+              <el-col :span="8">
+                value
+              </el-col>
+              <el-col :span="8">
+                备注
+              </el-col>
+            </div>
+            <div v-for="hearder in hearders" :key="hearder.id">
+              <el-col :span="8">
+                <el-input @blur="change" v-model="hearder.key" size="mini">
+                </el-input>
+              </el-col>
+              <el-col :span="8">
+                <el-input @blur="change" v-model="hearder.value" size="mini">
+                </el-input>
+              </el-col>
+              <el-col :span="8">
+                <el-input @blur="change" v-model="hearder.note" size="mini">
+                </el-input>
+              </el-col>
+            </div>
+          </el-row>
+          <el-row :gutter="24" v-if="show_req===false">
+            <div>
+              <el-col :span="24">
+                <el-input   type="textarea"  :autosize="{ minRows: 10, maxRows: 30}"></el-input>
+              </el-col>
+            </div>
+          </el-row>
           <div style="background: #e4e7ed">
             Response
           </div>
         </el-tab-pane>
-        <el-tab-pane label="Body" name="third">角色管理</el-tab-pane>
         <el-tab-pane label="断言" name="fourth">定时任务补偿</el-tab-pane>
       </el-tabs>
     </el-form-item>
@@ -113,6 +156,8 @@ export default {
   data () {
     return {
       activeName: 'second',
+      sel_req: 'json',
+      show_req: true,
       projects: [],
       models: [],
       types: [],
@@ -134,7 +179,7 @@ export default {
       },
       therules: {
         name: [
-          { required: true, message: '请输入接口名称', trigger: 'blur' }
+          { required: true, message: '请输入用例名称', trigger: 'blur' }
         ],
         request_url: [
           { required: true, message: '请输入请求的URL', trigger: 'blur' }
@@ -233,8 +278,13 @@ export default {
       })
     },
     change () {
-      // let i = 1
-      for (let j = 1; j < this.hearders.length; j++) {
+      let h = {
+        key: '',
+        value: '',
+        note: ''
+      }
+      this.hearders.push(h)
+      for (let j = 0; j < this.hearders.length; j++) {
         if ((this.hearders[j].key === undefined && this.hearders[j].value === undefined) ||
           (this.hearders[j].key === '' && this.hearders[j].value === '') ||
           (this.hearders[j].key === undefined && this.hearders[j].value === '') ||
@@ -242,28 +292,10 @@ export default {
         ) {
           this.hearders.splice(j, 1)
           j--
+          console.log(j)
         }
       }
-      let h = {
-        key: '',
-        value: '',
-        note: ''
-      }
-      if (this.hearders[0].key !== undefined && this.hearders[0].value !== undefined && this.hearders[0].key !== '' && this.hearders[0].value !== ''
-      ) {
-        console.log(this.hearders[0].key === '')
-        console.log(this.hearders[0].value === '')
-        this.hearders.push(h)
-      }
-      // if ((this.hearders[0].key !== undefined && this.hearders[0].value !== undefined) ||
-      //   (this.hearders[0].key !== '' && this.hearders[0].value !== '') ||
-      //   (this.hearders[0].key !== undefined && this.hearders[0].value !== '') ||
-      //   (this.hearders[0].key !== '' && this.hearders[0].value !== undefined)
-      // ) {
-      //   console.log(this.hearders[0].key === '')
-      //   console.log(this.hearders[0].value === '')
-      //   this.hearders.push(h)
-      // }
+      this.hearders.push(h)
     }
   }
 }
